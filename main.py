@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+from prognoz import get_weather
 # Экран (объект класса Screen) - это виджет типа "макет" (Screen - наследник класса RelativeLayout).
 # ScreenManager - это особый виджет, который делает видимым один из прописанных в нём экранов.
 Window.clearcolor = (0.9, 0.9, 0.9, 1)
@@ -16,7 +17,7 @@ class FirstScr(Screen):
         super().__init__(name=name) # имя экрана должно передаваться конструктору класса Screen
         lbl = Label(text='Вs гsdasdasd', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
         inpt = TextInput(multiline=False, size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3})
-
+        res = get_weather(inpt)
         btn = Button(text="Прasdоasdaгasdнsadasdоsdssdaз", size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.2})
         btn.on_press = self.next
         self.add_widget(btn) # экран - это виджет, на котором могут создаваться все другие (потомки)
