@@ -1,13 +1,49 @@
-# подключаем библиотеку для работы с запросами
 import requests
-def get_weather(city):
+from bs4 import BeautifulSoup
 
-# формируем запрос
-    url = 'https://api.openweathermap.org/data/2.5/weather?q='+str(city)+'&units=metric&lang=ru&appid=79d1ca96933b0328e1c7e3e7a26cb347'
-    # отправляем запрос на сервер и сразу получаем результат
-    weather_data = requests.get(url).json()
-    # получаем данные о температуре и о том, как она ощущается
-    temperature = round(weather_data['main']['temp'])
-    temperature_feels = round(weather_data['main']['feels_like'])
-    # выводим значения на экран
-    return 'Сейчас в городе' + city, str(temperature) +'°C' + '\n' + 'Ощущается как' + str(temperature_feels) + '°C'
+def get_weather(city):
+    try:
+        # Пример для сайта Яндекс.Погода (может потребоваться обновление селекторов)
+        url = f"https://rp5.ru/{city}"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36'
+        }
+        
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Эти селекторы могут устареть - нужно проверять актуальность
+        segodnya = soup.find('span', {'class': 't_0'}).text
+
+        # weather_data = get_weather(city)
+        
+        return 'Сегодня ' + segodnya
+        
+    except Exception as e:
+        print(f"Ошибка при парсинге: {e}")
+        return 'None'
+    
+
+
+
+def get_weather_zavtra(city):
+    try:
+        # Пример для сайта Яндекс.Погода (может потребоваться обновление селекторов)
+        url = f"https://rp5.ru/{city}"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36'
+        }
+        
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Эти селекторы могут устареть - нужно проверять актуальность
+        zavtra = soup.find('span', {'class': 'second-part'}).text
+
+        # weather_data = get_weather(city)
+        
+        return zavtra
+        
+    except Exception as e:
+        print(f"Ошибка при парсинге: {e}")
+        return 'None'
