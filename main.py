@@ -1,5 +1,4 @@
 
-
 # программа с двумя экранами
 from kivy.app import App
 from kivy.uix.button import Button
@@ -9,11 +8,11 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.image import Image
-from prognoz import get_weather
+from prognoz import get_weather, get_weather_zavtra
 # Экран (объект класса Screen) - это виджет типа "макет" (Screen - наследник класса RelativeLayout).
 # ScreenManager - это особый виджет, который делает видимым один из прописанных в нём экранов.
 Window.clearcolor = (0.9, 0.9, 0.9, 1)
-Window.size = (400, 600)
+Window.size = (1000, 700)
 
 class FirstScr(Screen):
     def __init__(self, name='first'):
@@ -50,15 +49,22 @@ class SecondScr(Screen):
     def __init__(self, name='second'):
         super().__init__(name=name)
         lbl = Label(text='Выборг', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
-        lbl2 = Label(text=get_weather('vyborg'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        lbl2 = Label(text=get_weather('Погода_в_Выборге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        lbl3 = Label(text=get_weather_zavtra('Погода_в_Выборге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
+        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         with open('history.txt', 'a', encoding='utf-8') as file:
             file.write('Выборг' + ': ' + lbl2.text + '\n')
         file.close()
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         btn.on_press = self.next
+        self.add_widget(img2)
+        self.add_widget(img)
         self.add_widget(btn)
         self.add_widget(lbl)
         self.add_widget(lbl2)
+        self.add_widget(lbl3)
+
 
         
     def next(self):
@@ -71,15 +77,21 @@ class mscScr(Screen):
     def __init__(self, name='msc'):
         super().__init__(name=name)
         lbl = Label(text='Москва', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
-        lbl2 = Label(text=get_weather('moscow'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        lbl2 = Label(text=get_weather('Погода_в_Москве_(ВДНХ)'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        lbl3 = Label(text=get_weather_zavtra('Погода_в_Москве_(ВДНХ)'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
             file.write('Москва' + ': ' + lbl2.text + '\n')
         file.close()
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         btn.on_press = self.next
+        self.add_widget(img2)
+        self.add_widget(img)
         self.add_widget(btn)
         self.add_widget(lbl)
         self.add_widget(lbl2)
+        self.add_widget(lbl3)
 
         
     def next(self):
@@ -92,16 +104,21 @@ class spbScr(Screen):
     def __init__(self, name='spb'):
         super().__init__(name=name)
         lbl = Label(text='Санкт-Петербург', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
-        lbl2 = Label(text=get_weather('saint-petersburg'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        lbl2 = Label(text=get_weather('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
+        lbl3 = Label(text=get_weather_zavtra('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
             file.write('Санкт-Петербург' + ': ' + lbl2.text + '\n')
         file.close()
         btn.on_press = self.next
+        self.add_widget(img2)
+        self.add_widget(img)
         self.add_widget(btn)
         self.add_widget(lbl)
         self.add_widget(lbl2)
-        
+        self.add_widget(lbl3)
     def next(self):
         self.manager.transition.direction = 'right'
         self.manager.current = 'first'
