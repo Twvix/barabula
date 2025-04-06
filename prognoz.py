@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 
 def get_weather(city):
     try:
-        # Пример для сайта Яндекс.Погода (может потребоваться обновление селекторов)
         url = f"https://rp5.ru/{city}"
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36'
@@ -12,7 +11,6 @@ def get_weather(city):
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # Эти селекторы могут устареть - нужно проверять актуальность
         segodnya = soup.find('span', {'class': 't_0'}).text
 
         # weather_data = get_weather(city)
