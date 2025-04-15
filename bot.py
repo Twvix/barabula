@@ -12,15 +12,28 @@ dp = Dispatcher()
 # Command handler
 @dp.message(Command("start"))
 async def command_start_handler(message: Message) -> None:
-    await message.answer("Привет")
+    await message.answer("Привет, отправь нужный город!")
 
 
 @dp.message()
 async def command_start_handler(message: Message):
-    await message.answer(get_weather(Message))
-    await message.answer(get_weather_zavtra(Message))
-    
-# Run the bot
+    if message.text == 'Выборг':
+        await message.answer(get_weather('Погода_в_Выборге'))
+        await message.answer(get_weather_zavtra('Погода_в_Выборге'))
+    elif message.text == 'Москва':
+        await message.answer(get_weather('Погода_в_Москве_(ВДНХ)'))
+        await message.answer(get_weather_zavtra('Погода_в_Москве_(ВДНХ)'))
+    elif message.text == 'Спб':
+        await message.answer(get_weather('Погода_в_Санкт-Петербурге'))
+        await message.answer(get_weather_zavtra('Погода_в_Санкт-Петербурге'))
+    elif message.text[-1] == 'ь':
+        await message.answer(get_weather('Погода_в_' + message.text[:-1] + 'и'))
+        await message.answer(get_weather_zavtra('Погода_в_' + message.text[:-1] + 'и'))
+    else:
+        await message.answer(get_weather('Погода_в_' + message.text + 'е'))
+        await message.answer(get_weather_zavtra('Погода_в_' + message.text + 'е'))
+
+
 async def main() -> None:
     bot = Bot(token=TOKEN)
     await dp.start_polling(bot)
