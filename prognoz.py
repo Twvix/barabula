@@ -16,7 +16,8 @@ def get_weather(city):
         # print(segodnya2)
         # weather_data = get_weather(city)
         
-        return segodnya2
+        arr = segodnya2.split('.')
+        return arr[0] + arr[4] + '\n' + arr[5] + arr[9]
         
     except Exception as e:
         print(f"Ошибка при парсинге: {e}")
@@ -35,14 +36,17 @@ def get_weather_zavtra(city):
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        zavtra = soup.find('span', {'class': 'second-part'}).text
-
+        # segodnya = soup.find('span', {'class': 't_0'}).text
+        zavtra = soup.find('div', {'class': 'round-5'}).text
+        # print(segodnya2)
         # weather_data = get_weather(city)
         
-        return zavtra
+        arr2 = zavtra.split('.')
+
+        return arr2[5] + arr2[9]
         
     except Exception as e:
         print(f"Ошибка при парсинге: {e}")
         return 'None'
-
+    
 
