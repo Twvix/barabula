@@ -9,6 +9,9 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.image import Image
 from prognoz import get_weather, get_weather_zavtra
+from datetime import datetime
+dt = datetime.now().date()
+
 # Экран (объект класса Screen) - это виджет типа "макет" (Screen - наследник класса RelativeLayout).
 # ScreenManager - это особый виджет, который делает видимым один из прописанных в нём экранов.
 Window.clearcolor = (0.9, 0.9, 0.9, 1)
@@ -53,8 +56,14 @@ class SecondScr(Screen):
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Выборге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
         img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
-        with open('history.txt', 'a', encoding='utf-8') as file:
-            file.write('Выборг' + ': ' + lbl2.text + '\n')
+        with open('history.txt', 'a+', encoding='utf-8') as file:
+            print(file.readline())
+            if str(dt) in file.readline():
+                print('qwe')
+                pass
+            else:
+                file.write(str(dt) + '\n\n')
+                file.write('Выборг' + ': ' + lbl2.text + '\n\n')
         file.close()
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         btn.on_press = self.next
@@ -82,7 +91,7 @@ class mscScr(Screen):
         img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Москве_(ВДНХ)'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
-            file.write('Москва' + ': ' + lbl2.text + '\n')
+            file.write('Москва' + ': ' + lbl2.text + '\n\n')
         file.close()
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         btn.on_press = self.next
@@ -110,7 +119,7 @@ class spbScr(Screen):
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
-            file.write('Санкт-Петербург' + ': ' + lbl2.text + '\n')
+            file.write('Санкт-Петербург' + ': ' + lbl2.text + '\n\n')
         file.close()
         btn.on_press = self.next
         self.add_widget(img2)
