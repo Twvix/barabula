@@ -29,6 +29,11 @@ async def command_start_handler(message: Message):
     elif message.text[-1] == 'ь':
         await message.answer(get_weather('Погода_в_' + message.text[:-1] + 'и'))
         await message.answer(get_weather_zavtra('Погода_в_' + message.text[:-1] + 'и'))
+    elif message.text[-1] == 'а':
+        await message.answer(get_weather('Погода_в_' + message.text[:-1] + 'е'))
+        await message.answer(get_weather_zavtra('Погода_в_' + message.text[:-1] + 'е'))
+    elif message.text == 'Ростов-на-Дону':
+        await message.answer(get_weather('Погода_в_Ростове-на-Дону'))
     else:
         await message.answer(get_weather('Погода_в_' + message.text + 'е'))
         await message.answer(get_weather_zavtra('Погода_в_' + message.text + 'е'))
