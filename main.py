@@ -20,24 +20,45 @@ Window.size = (1000, 700)
 class FirstScr(Screen):
     def __init__(self, name='first'):
         super().__init__(name=name) # имя экрана должно передаваться конструктору класса Screen
-        lbl = Label(text='Выберите город', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
-        # inpt = TextInput(size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3})
-        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
-        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
-        self.Vyborg = Button(text="Выборг", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3})
-        self.Saint_Peterburg = Button(text="Санкт-Петербург", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.2})
-        self.Moscow = Button(text="Москва", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
-        self.add_widget(self.Vyborg) # экран - это виджет, на котором могут создаваться все другие (потомки)
-        self.add_widget(self.Saint_Peterburg)
-        self.add_widget(self.Moscow)
+        global inpt
+        lbl = Label(text='Выберите город', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.6}, color=(0,0,0,1))
+        inpt = TextInput(size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        img = Image(source='png-transparent-dark-cloud-thumbnail-Photoroom.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='pngtree-sun-cartoon-cute-doodle-summer-png-image_6646856.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        Vyborg = Button(text="Выборг", size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3})
+        Saint_Peterburg = Button(text="Санкт-Петербург", size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.2})
+        Moscow = Button(text="Москва", size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
+        some = Button(text="Прогноз", size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.4})
+        self.add_widget(some)
+        self.add_widget(Vyborg) # экран - это виджет, на котором могут создаваться все другие (потомки)
+        self.add_widget(Saint_Peterburg)
+        self.add_widget(Moscow)
+        self.add_widget(inpt)
         self.add_widget(img2)
         self.add_widget(img)
         self.add_widget(lbl)
-        self.Vyborg.on_press = self.vbg
-        self.Saint_Peterburg.on_press = self.spb
-        self.Moscow.on_press = self.msc
+        some.on_press = self.some
+        Vyborg.on_press = self.vbg
+        Saint_Peterburg.on_press = self.spb
+        Moscow.on_press = self.msc
 
-
+    def some(self):
+        try:
+            if inpt.text[-1] == 'ь':
+                lbl2 = Label(text=get_weather('Погода_в_'+inpt[:-1]+'и'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+                self.add_widget(lbl2)
+            elif inpt.text[-1] == 'а':
+                lbl2 = Label(text=get_weather('Погода_в_'+inpt[:-1]+'е'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+                self.add_widget(lbl2)
+            elif inpt == 'Ростов-на-Дону':
+                lbl2 = Label(text=get_weather('Погода_в_Ростове-на-Дону'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+                self.add_widget(lbl2)
+            else:
+                lbl2 = Label(text=get_weather('Погода_в_' + inpt + 'e'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+                self.add_widget(lbl2)
+        except:
+            pass
+        self.manager.current = 'some'
     def vbg(self):
         # self.manager.transition.direction = 'left'
         self.manager.current = 'second'
@@ -54,8 +75,8 @@ class SecondScr(Screen):
         lbl = Label(text='Выборг', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
         lbl2 = Label(text=get_weather('Погода_в_Выборге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Выборге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
-        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
-        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        img = Image(source='png-transparent-dark-cloud-thumbnail-Photoroom.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='pngtree-sun-cartoon-cute-doodle-summer-png-image_6646856.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         with open('history.txt', 'a+', encoding='utf-8') as file:
             print(file.readline())
             if str(dt) in file.readline():
@@ -87,8 +108,8 @@ class mscScr(Screen):
         super().__init__(name=name)
         lbl = Label(text='Москва', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
         lbl2 = Label(text=get_weather('Погода_в_Москве_(ВДНХ)'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
-        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
-        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        img = Image(source='png-transparent-dark-cloud-thumbnail-Photoroom.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='pngtree-sun-cartoon-cute-doodle-summer-png-image_6646856.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Москве_(ВДНХ)'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
             file.write('Москва' + ': ' + lbl2.text + '\n\n')
@@ -114,8 +135,8 @@ class spbScr(Screen):
         super().__init__(name=name)
         lbl = Label(text='Санкт-Петербург', size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
         lbl2 = Label(text=get_weather('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
-        img = Image(source='oblako.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
-        img2 = Image(source='solnce.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        img = Image(source='png-transparent-dark-cloud-thumbnail-Photoroom.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='pngtree-sun-cartoon-cute-doodle-summer-png-image_6646856.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
         btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         lbl3 = Label(text=get_weather_zavtra('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
         with open('history.txt', 'a', encoding='utf-8') as file:
@@ -134,6 +155,31 @@ class spbScr(Screen):
 
 
 
+class someScr(Screen):
+    def __init__(self, name='some'):
+        super().__init__(name=name)
+        lbl = Label(text=inpt.text, size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5}, color=(0,0,0,1))
+        # lbl2 = Label(text=get_weather('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.3}, color=(0,0,0,1))
+        
+        img = Image(source='png-transparent-dark-cloud-thumbnail-Photoroom.png', size_hint=(0.65, 0.65), pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        img2 = Image(source='pngtree-sun-cartoon-cute-doodle-summer-png-image_6646856.png', size_hint=(0.4, 0.4), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+        btn = Button(text="Назад", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.1})
+        # lbl3 = Label(text=get_weather_zavtra('Погода_в_Санкт-Петербурге'), size_hint=(0.2, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.25}, color=(0,0,0,1))
+        # with open('history.txt', 'a', encoding='utf-8') as file:
+        #     file.write(inpt.text + ': ' + get_weather + '\n\n')
+        # file.close()
+        btn.on_press = self.next
+        self.add_widget(img2)
+        self.add_widget(img)
+        self.add_widget(btn)
+        self.add_widget(lbl)
+        
+        # self.add_widget(lbl3)
+    def next(self):
+        self.manager.transition.direction = 'right'
+        self.manager.current = 'first'
+
+
 class MyApp(App):
     def build(self):
         sm = ScreenManager()
@@ -141,6 +187,7 @@ class MyApp(App):
         sm.add_widget(SecondScr())
         sm.add_widget(mscScr())
         sm.add_widget(spbScr())
+        sm.add_widget(someScr())
 
         return sm
 
